@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import MapView from "react-native-maps";
+import { Fontisto } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 
 // 초기에는 공홈에서 많은 컴포넌트 지원했지만, 유지관리가 어렵고 앱이 무거워져서 서드파티 패키지를 이용하도록 권장했다.
@@ -31,6 +32,11 @@ import { useEffect, useState } from "react";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const API_KEY = "";
+
+const icons = {
+  Clouds: "cloudy",
+  Clear: "day-sunny",
+};
 export default function App() {
   const [city, setCity] = useState("loading...");
   const [days, setDays] = useState([]);
@@ -89,9 +95,16 @@ export default function App() {
           days.map((day, index) => {
             return (
               <View key={index} style={styles.day}>
-                <Text style={styles.temp}>
-                  {parseFloat(day.main.temp).toFixed(1)}
-                </Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Text style={styles.temp}>
+                    {parseFloat(day.main.temp).toFixed(1)}
+                  </Text>
+                  <Fontisto
+                    name={icons[day.weather[0].main]}
+                    size={70}
+                    color="white"
+                  />
+                </View>
                 <Text style={styles.description}>{day.weather[0].main}</Text>
               </View>
             );
@@ -111,7 +124,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 28,
-    color: "black",
+    color: "white",
   },
   city: {
     flex: 0.8,
@@ -121,21 +134,23 @@ const styles = StyleSheet.create({
   cityName: {
     fontSize: 68,
     fontWeight: "500",
+    color: "white",
   },
   weather: {
     backgroundColor: "tomato",
   },
   day: {
     width: SCREEN_WIDTH,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "left",
+    alignItems: "left",
   },
   temp: {
     fontSize: 158,
-    color: "black",
+    color: "white",
   },
   description: {
     marginTop: -30,
     fontSize: 60,
+    color: "white",
   },
 });
